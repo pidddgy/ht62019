@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Provider as PaperProvider, Card, Button } from 'react-native-paper';
+import { Provider as PaperProvider, Card, Button, Title  } from 'react-native-paper';
 
 export default class App extends React.Component {
   state = {
@@ -11,9 +11,13 @@ export default class App extends React.Component {
     return (
       <PaperProvider>
         <View style = {styles.container}>
-          <Button icon="do-not-disturb" style={styles.button} onPress={() => console.log('Pressed')}>
+          <View style = {styles.bottom}> 
+          <Title> Distance to closest - </Title> 
+          <Button icon="do-not-disturb" onPress={() => console.log('Pressed')}>
             I've been caught
           </Button>
+          </View>
+
         </View>
       </PaperProvider>
     );
@@ -25,9 +29,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center'
   },
-  button: {
+  bottom: {
     flex: 1,
     justifyContent: 'flex-end',
-    marginBottom: 36
+    marginBottom: 36,
+    alignItems: 'center',
   }
 })
