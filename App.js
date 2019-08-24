@@ -19,7 +19,7 @@ export default class App extends React.Component {
       });
     }
 
-    let location = await Location.getCurrentPositionAsync({});
+    let location = await Location.getCurrentPositionAsync({accuracy:6});
     this.setState({ location });
     console.log(location);
   };
