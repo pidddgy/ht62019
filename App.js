@@ -1,10 +1,33 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Provider as PaperProvider, Card, Button, Title  } from 'react-native-paper';
+import Constants from 'expo-constants';
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 
 export default class App extends React.Component {
   state = {
-    it: null
+    it: null,
+    location:null,
+  }
+
+  getLocation = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+        errorMessage: 'Permission to access location was denied',
+      });
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    this.setState({ location });
+    console.log(location);
+  };
+
+  componentWillMount () {
+    setInterval(() => {
+      this.getLocation();
+    }, 30)
   }
 
   render() {
@@ -12,7 +35,8 @@ export default class App extends React.Component {
       <PaperProvider>
         <View style = {styles.container}>
           <View style = {styles.bottom}> 
-          <Title> Distance to closest - </Title> 
+          <Title> debug - {JSON.stringify(this.state.location)} </Title>
+          <Title> Distance to closest -  </Title> 
           <Button icon="do-not-disturb" onPress={() => console.log('Pressed')}>
             I've been caught
           </Button>
