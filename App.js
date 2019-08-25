@@ -4,11 +4,14 @@ import { Provider as PaperProvider, Card, Button, Title  } from 'react-native-pa
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
+import $ from 'jquery';
+import axios from "axios";
 
 export default class App extends React.Component {
   state = {
     it: null,
     location:null,
+    id: null,
   }
 
   getLocation = async () => {
@@ -21,10 +24,22 @@ export default class App extends React.Component {
 
     let location = await Location.getCurrentPositionAsync({accuracy:6});
     this.setState({ location });
-    console.log(location);
+    // console.log(location);
   };
 
   componentWillMount () {
+    axios.get('http://40.121.93.132:4200/add/').then((res) => {
+      // console.log(res);
+      var cuteid;
+      cuteid = JSON.parse(res.request._response).id.toString();
+      console.log("set id to " + cuteid);
+      this.setState({
+        id:cuteid,
+      })
+    }).catch(function(res) {
+      console.log("oh no");
+      console.log(res);
+    });
     setInterval(() => {
       this.getLocation();
     }, 30)
