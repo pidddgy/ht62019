@@ -15,7 +15,7 @@ export default class App extends React.Component {
         team: 0,
         location: {},
         id: 'N/A',
-        best: Infinity,
+        best: 1e101,
     }
 
     /*
@@ -48,7 +48,8 @@ export default class App extends React.Component {
             this.state.best = dist;
             // console.log("successfully updated");
         }).catch(err => {
-            console.log(`Err: ${err}, oh no`);
+            this.setErrors(err);
+            // console.log(`Err: ${err}, oh no`);
         });
     };
 
@@ -60,7 +61,8 @@ export default class App extends React.Component {
 
             this.setState({ id: id })
         }).catch(err => {
-            console.log(`Err: ${err}, oh no`);
+            this.setErrors(err);
+            // console.log(`Err: ${err}, oh no`);
         });
 
         // console.log("passed");
@@ -78,7 +80,7 @@ export default class App extends React.Component {
     }
 
     getBestText = () => {
-        return this.state.best === Infinity ? 'N/A' : `~${this.state.best.toFixed(1)}m`;
+        return this.state.best > 1e100 ? 'N/A' : `~${this.state.best.toFixed(1)}m`;
     }
 
     getTeamText = () => {
@@ -100,6 +102,7 @@ export default class App extends React.Component {
                         <Button icon="account-circle" onPress={() => this.swapTeam()}>
                             Swap Team
 					    </Button>
+
                         {/* <Button icon="do-not-disturb" onPress={() => this.swapTeam()}>
                             Swap Team
 					    </Button>
@@ -151,5 +154,8 @@ const styles = StyleSheet.create({
     },
     bestDist: {
         marginTop: 150
+    },
+    errorText: {
+        color: "red"
     }
 });
