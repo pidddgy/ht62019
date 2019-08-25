@@ -13,6 +13,7 @@ export default class App extends React.Component {
     team: 0,
     location: {},
     id: null,
+    best: 0,
   }
 
   getLocation = async () => {
@@ -32,9 +33,14 @@ export default class App extends React.Component {
     const url = 'http://40.121.93.132:4200/loc/' + this.state.id.toString() + 
     "/" + this.state.location.coords.latitude + '/' + this.state.location.coords.longitude;
 
-    console.log("url is "+url);
+    //console.log("url is "+url);
     axios.get(url).then((res) => {
         console.log("successfully updated");
+        console.log(JSON.parse(res.request._response).dist);
+        const cute = JSON.parse(res.request._response).dist;
+        this.setState({
+          best: cute,
+        })
       }).catch(function () {
         console.log("oh no");
       });
@@ -67,7 +73,7 @@ export default class App extends React.Component {
         <View style={styles.container}>
           <View style={styles.bottom}>
             <Title> debug - {JSON.stringify(this.state.location)} </Title>
-            <Title> Distance to closest -  </Title>
+            <Title> Distance to closest - {this.state.best} meters </Title>
             <Button icon="do-not-disturb" onPress={() => console.log('Pressed')}>
               I've been caught
           </Button>
